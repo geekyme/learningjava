@@ -21,7 +21,7 @@ public class Application implements CommandLineRunner {
   @Bean("threadPoolTaskExecutor")
   public TaskExecutor getAsyncExecutor() {
     ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-    executor.setCorePoolSize(20);
+    executor.setCorePoolSize(500);
     executor.setMaxPoolSize(1000);
     executor.setWaitForTasksToCompleteOnShutdown(true);
     executor.setThreadNamePrefix("Async-");
