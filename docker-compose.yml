@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+  app:
+    image: local/learningjava
+    ports:
+      - 8080:8080
+
+  mongo:
+    image: mongo
+    restart: always
+    volumes:
+      - './data:/data/db'

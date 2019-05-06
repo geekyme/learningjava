@@ -1,3 +1,6 @@
+# Local mongo
+data/
+
 # Maven stuff
 target/
 
