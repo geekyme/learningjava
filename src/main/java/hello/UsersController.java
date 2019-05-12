@@ -27,9 +27,9 @@ public class UsersController {
 
   @PostMapping("/signup")
   public void signUp(@RequestBody Users user) {
-    logger.info("Signing up user " + user.toString());
+    logger.trace("Signing up user {}", user.toString());
     user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
     usersRepository.save(user);
-    logger.info("User saved " + user.toString());
+    logger.trace("User saved {}", user.toString());
   }
 }
