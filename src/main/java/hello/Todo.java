@@ -5,9 +5,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ ElementType.TYPE, ElementType.METHOD })
+@Target({ ElementType.TYPE, ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-@interface Todo {
+public @interface Todo {
   public enum Priority {
     LOW, MEDIUM, HIGH
   }
@@ -21,4 +21,6 @@ import java.lang.annotation.Target;
   Priority priority() default Priority.LOW;
 
   Status status() default Status.NOT_STARTED;
+
+  String message() default "";
 }

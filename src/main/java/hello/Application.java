@@ -10,6 +10,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import hello.security.SecurityConstants;
+
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 @SpringBootApplication
@@ -28,6 +33,11 @@ public class Application implements CommandLineRunner {
     return executor;
   }
 
+  @Bean
+  public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
+
   public static void main(String[] args) {
     SpringApplication.run(Application.class, args);
     getTodoReport();
@@ -35,6 +45,13 @@ public class Application implements CommandLineRunner {
 
   public void run(String... args) throws Exception {
     logger.info("Started app");
+  }
+
+  private static void printTodo(Todo annotation) {
+    System.out.println(" Author : " + annotation.author());
+    System.out.println(" Priority : " + annotation.priority());
+    System.out.println(" Status : " + annotation.status());
+    System.out.println(" Message : " + annotation.message());
   }
 
   private static void getTodoReport() {
@@ -45,9 +62,7 @@ public class Application implements CommandLineRunner {
 
     if (todoAnnotationClass != null) {
       System.out.println(" Class Name : " + helloControllerClass.getName());
-      System.out.println(" Author : " + todoAnnotationClass.author());
-      System.out.println(" Priority : " + todoAnnotationClass.priority());
-      System.out.println(" Status : " + todoAnnotationClass.status());
+      printTodo(todoAnnotationClass);
       System.out.println(" --------------------------- ");
     }
 
@@ -55,9 +70,18 @@ public class Application implements CommandLineRunner {
       Todo todoAnnotation = (Todo) method.getAnnotation(Todo.class);
       if (todoAnnotation != null) {
         System.out.println(" Method Name : " + method.getName());
-        System.out.println(" Author : " + todoAnnotation.author());
-        System.out.println(" Priority : " + todoAnnotation.priority());
-        System.out.println(" Status : " + todoAnnotation.status());
+        printTodo(todoAnnotation);
+        System.out.println(" --------------------------- ");
+      }
+    }
+
+    Class<SecurityConstants> securityConstantsClass = SecurityConstants.class;
+
+    for (Field field : securityConstantsClass.getDeclaredFields()) {
+      Todo todoAnnotation = (Todo) field.getAnnotation(Todo.class);
+      if (todoAnnotation != null) {
+        System.out.println(" Field Name : " + field.getName());
+        printTodo(todoAnnotation);
         System.out.println(" --------------------------- ");
       }
     }

@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import hello.models.Pets;
-import hello.models.Users;
+import hello.models.GithubUsers;
 import hello.repositories.PetsRepository;
 import hello.service.GithubLookupService;
 
@@ -38,17 +38,17 @@ public class HelloController {
     return repository.findAll();
   }
 
-  @RequestMapping("/users")
-  public List<Users> getAllUsers() {
+  @RequestMapping("/githubusers")
+  public List<GithubUsers> getAllGithubUsers() {
     long start = System.currentTimeMillis();
 
-    List<Users> users = new ArrayList<>();
+    List<GithubUsers> users = new ArrayList<>();
 
     try {
 
-      CompletableFuture<Users> u1 = gitHubLookupService.findUser("geekyme");
-      CompletableFuture<Users> u2 = gitHubLookupService.findUser("spkjess");
-      CompletableFuture<Users> u3 = gitHubLookupService.findUser("zetoke");
+      CompletableFuture<GithubUsers> u1 = gitHubLookupService.findUser("geekyme");
+      CompletableFuture<GithubUsers> u2 = gitHubLookupService.findUser("spkjess");
+      CompletableFuture<GithubUsers> u3 = gitHubLookupService.findUser("zetoke");
       CompletableFuture.allOf(u1, u2, u3).join();
 
       logger.info("Elapsed time: " + (System.currentTimeMillis() - start));
